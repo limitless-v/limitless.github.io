@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SURAJKUMAR K S — Full Stack & AI Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0a0a0a;
+    --white: #f0ece0;
+    --yellow: #f5d800;
+    --red: #e03030;
+    --mono: 'Space Mono', monospace;
+    --display: 'Bebas Neue', sans-serif;
+    --code: 'IBM Plex Mono', monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: var(--black); color: var(--white);
+    border-bottom: 4px solid var(--yellow);
+    z-index: 100; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 2rem; height: 56px;
+  }
+  .nav-logo { font-family: var(--display); font-size: 1.8rem; letter-spacing: 3px; color: var(--yellow); }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--white); text-decoration: none; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase;
+    border-bottom: 2px solid transparent; padding-bottom: 2px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .nav-links a:hover { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; padding-top: 56px; background: var(--black);
+    display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 3rem 4rem 4rem; border-right: 4px solid var(--yellow);
+  }
+  .hero-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--yellow); margin-bottom: 1rem; }
+  .hero-name {
+    font-family: var(--display); font-size: clamp(3rem, 7.5vw, 7rem);
+    line-height: 0.92; color: var(--white); letter-spacing: 2px; margin-bottom: 1.5rem;
+  }
+  .hero-name span { color: var(--yellow); display: block; }
+  .hero-desc { color: #aaa; max-width: 420px; margin-bottom: 2.5rem; line-height: 1.9; font-size: 13px; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 0.75rem 1.75rem; font-family: var(--mono);
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; border: none; transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .btn:active { transform: translate(3px,3px); box-shadow: none !important; }
+  .btn-primary { background: var(--yellow); color: var(--black); box-shadow: 5px 5px 0 var(--white); }
+  .btn-primary:hover { box-shadow: 8px 8px 0 var(--white); transform: translate(-2px,-2px); }
+  .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); box-shadow: 5px 5px 0 #555; }
+  .btn-outline:hover { box-shadow: 8px 8px 0 #555; transform: translate(-2px,-2px); color: var(--yellow); border-color: var(--yellow); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem; position: relative; overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(245,216,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(245,216,0,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-code-block {
+    background: #111; border: 3px solid var(--yellow); padding: 2rem;
+    font-family: var(--code); font-size: 12.5px; color: #ccc;
+    max-width: 380px; width: 100%; box-shadow: 10px 10px 0 var(--yellow); position: relative; z-index: 1;
+  }
+  .code-header { display: flex; gap: 8px; margin-bottom: 1.5rem; align-items: center; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #e03030; } .dot-y { background: #f5d800; } .dot-g { background: #2ecc71; }
+  .code-title { font-size: 11px; color: #555; margin-left: 8px; letter-spacing: 1px; }
+  .code-line { display: flex; gap: 1rem; margin-bottom: 4px; }
+  .ln { color: #444; min-width: 20px; text-align: right; user-select: none; }
+  .kw { color: #c678dd; } .fn { color: #61afef; } .str { color: #98c379; }
+  .cm { color: #555; font-style: italic; } .pu { color: #abb2bf; } .nm { color: #e5c07b; }
+
+  /* TICKER */
+  .ticker {
+    background: var(--yellow); border-top: 3px solid var(--black);
+    border-bottom: 3px solid var(--black); overflow: hidden; white-space: nowrap; padding: 10px 0;
+  }
+  .ticker-inner { display: inline-flex; animation: scroll 24s linear infinite; }
+  .ticker-item { font-family: var(--display); font-size: 1.4rem; letter-spacing: 3px; color: var(--black); padding: 0 2rem; }
+  .ticker-item::after { content: '◆'; margin-left: 2rem; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; font-weight: 700; }
+  .section-title {
+    font-family: var(--display); font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1; letter-spacing: 2px; margin-bottom: 3rem;
+    border-bottom: 4px solid var(--black); padding-bottom: 1rem;
+  }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: start; }
+  .about-text p { margin-bottom: 1rem; color: #333; font-size: 14px; line-height: 1.9; }
+  .about-text strong { font-weight: 700; color: var(--black); }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--black); border: 3px solid var(--black); }
+  .stat-box { background: var(--white); padding: 1.5rem; text-align: center; }
+  .stat-box:nth-child(odd) { background: var(--black); color: var(--white); }
+  .stat-num { font-family: var(--display); font-size: 3rem; line-height: 1; color: var(--yellow); display: block; }
+  .stat-box:nth-child(even) .stat-num { color: var(--black); }
+  .stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.25rem; opacity: 0.7; }
+
+  /* SKILLS */
+  #skills { background: var(--black); color: var(--white); max-width: 100%; padding: 5rem 4rem; }
+  #skills .section-title { border-bottom-color: var(--yellow); color: var(--white); }
+  #skills .section-label { color: var(--yellow); }
+  .skills-wrap { max-width: 1200px; margin: 0 auto; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px; background: #333; border: 2px solid #333; }
+  .skill-cat { background: var(--black); padding: 2rem; }
+  .skill-cat-title { font-family: var(--display); font-size: 1.4rem; letter-spacing: 2px; color: var(--yellow); margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--yellow); }
+  .skill-tag {
+    display: inline-block; padding: 5px 12px; border: 2px solid #444;
+    color: #ccc; font-size: 12px; letter-spacing: 1px; margin: 4px 4px 4px 0;
+    font-family: var(--code); transition: all 0.15s; cursor: default;
+  }
+  .skill-tag:hover { border-color: var(--yellow); color: var(--yellow); background: rgba(245,216,0,0.05); }
+
+  /* EXPERIENCE */
+  .exp-block { border: 3px solid var(--black); margin-bottom: 2rem; box-shadow: 6px 6px 0 var(--black); }
+  .exp-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    background: var(--black); color: var(--white); padding: 1.25rem 1.5rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .exp-company { font-family: var(--display); font-size: 1.8rem; letter-spacing: 2px; color: var(--yellow); }
+  .exp-role { font-size: 12px; letter-spacing: 2px; color: #aaa; margin-top: 2px; text-transform: uppercase; }
+  .exp-date { font-size: 12px; color: #777; letter-spacing: 1px; font-family: var(--code); }
+  .exp-body { padding: 1.5rem; background: var(--white); }
+  .exp-body ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .exp-body li { font-size: 13px; color: #333; line-height: 1.8; padding-left: 1.5rem; position: relative; }
+  .exp-body li::before { content: '▸'; position: absolute; left: 0; color: var(--red); }
+
+  /* PROJECTS */
+  #projects { background: #111; color: var(--white); max-width: 100%; padding: 5rem 4rem; }
+  #projects .section-title { border-bottom-color: var(--yellow); color: var(--white); }
+  #projects .section-label { color: var(--yellow); }
+  .projects-wrap { max-width: 1200px; margin: 0 auto; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0; border: 3px solid #333; }
+  .project-card {
+    border-right: 3px solid #333; border-bottom: 3px solid #333;
+    padding: 2rem; position: relative; transition: background 0.15s; background: #111; overflow: hidden;
+  }
+  .project-card:hover { background: var(--yellow); }
+  .project-card:hover .project-title,
+  .project-card:hover .project-desc,
+  .project-card:hover .project-type { color: var(--black); }
+  .project-card:hover .project-link { color: var(--black); border-color: var(--black); }
+  .project-card:hover .tech-tag { border-color: #333; color: #333; }
+  .project-card:hover .project-num { color: rgba(0,0,0,0.07); }
+  .project-num { font-family: var(--display); font-size: 5rem; color: rgba(255,255,255,0.04); position: absolute; top: -10px; right: 1rem; line-height: 1; transition: color 0.15s; }
+  .project-type { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.75rem; font-weight: 700; transition: color 0.15s; }
+  .project-title { font-family: var(--display); font-size: 2rem; letter-spacing: 1px; margin-bottom: 1rem; line-height: 1.1; color: var(--white); transition: color 0.15s; }
+  .project-desc { font-size: 13px; color: #aaa; line-height: 1.8; margin-bottom: 1.5rem; transition: color 0.15s; }
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+  .tech-tag { font-family: var(--code); font-size: 11px; padding: 4px 10px; border: 1.5px solid #444; color: #888; transition: all 0.15s; }
+  .project-link { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--yellow); text-decoration: none; border-bottom: 2px solid var(--yellow); padding-bottom: 2px; transition: color 0.15s, border-color 0.15s; }
+
+  /* CONTACT */
+  #contact { background: var(--yellow); }
+  #contact .section-title { border-bottom-color: var(--black); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-info p { font-size: 14px; line-height: 1.9; margin-bottom: 1rem; color: #333; }
+  .contact-links { display: flex; flex-direction: column; gap: 0; border: 3px solid var(--black); }
+  .contact-link-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem; border-bottom: 2px solid var(--black);
+    background: var(--white); text-decoration: none; color: var(--black);
+    font-weight: 700; font-size: 13px; letter-spacing: 1px; transition: background 0.1s;
+  }
+  .contact-link-item:last-child { border-bottom: none; }
+  .contact-link-item:hover { background: var(--black); color: var(--yellow); }
+  .contact-form { display: flex; flex-direction: column; border: 3px solid var(--black); }
+  .form-field input, .form-field textarea {
+    background: var(--white); border: none; border-bottom: 2px solid var(--black);
+    padding: 1rem 1.25rem; font-family: var(--mono); font-size: 14px;
+    color: var(--black); outline: none; resize: none; width: 100%; transition: background 0.1s;
+  }
+  .form-field input:focus, .form-field textarea:focus { background: #fff8cc; }
+  .form-field input::placeholder, .form-field textarea::placeholder { color: #999; }
+  .form-submit {
+    background: var(--black); color: var(--yellow); border: none;
+    padding: 1.25rem; font-family: var(--display); font-size: 1.5rem;
+    letter-spacing: 3px; cursor: pointer; transition: background 0.15s;
+  }
+  .form-submit:hover { background: var(--red); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); color: #555; text-align: center;
+    padding: 2rem; border-top: 4px solid var(--yellow);
+    font-size: 12px; letter-spacing: 2px;
+  }
+  footer span { color: var(--yellow); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 0.75rem; }
+    .nav-links a { font-size: 10px; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 3rem 1.5rem; border-right: none; border-bottom: 4px solid var(--yellow); }
+    section { padding: 3rem 1.5rem; }
+    #skills, #projects, #contact { padding: 3rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SKS.DEV</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Stack</a></li>
+    <li><a href="#experience">Exp</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">// Full Stack Developer · AI Systems · LLM Integrations</div>
+    <h1 class="hero-name">
+      SURAJ<span>KUMAR KS.</span>
+    </h1>
+    <p class="hero-desc">
+      I build production-grade full-stack apps and AI-native systems —
+      RAG pipelines, LLM agents, REST APIs, and clean React frontends.
+      Currently shipping at AsimovX Technologies, Kerala.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View Work</a>
+      <a href="https://github.com/limitless-v" target="_blank" class="btn btn-outline">GitHub ↗</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-code-block">
+      <div class="code-header">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span class="code-title">surajkumar.ts</span>
+      </div>
+      <div class="code-line"><span class="ln">1</span><span><span class="kw">const</span> <span class="nm">dev</span> <span class="pu">= {</span></span></div>
+      <div class="code-line"><span class="ln">2</span><span>&nbsp;&nbsp;<span class="fn">name</span><span class="pu">:</span> <span class="str">"Surajkumar KS"</span><span class="pu">,</span></span></div>
+      <div class="code-line"><span class="ln">3</span><span>&nbsp;&nbsp;<span class="fn">role</span><span class="pu">:</span> <span class="str">"Full Stack + AI Dev"</span><span class="pu">,</span></span></div>
+      <div class="code-line"><span class="ln">4</span><span>&nbsp;&nbsp;<span class="fn">stack</span><span class="pu">: [</span></span></div>
+      <div class="code-line"><span class="ln">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Node.js"</span><span class="pu">,</span> <span class="str">"React"</span><span class="pu">,</span></span></div>
+      <div class="code-line"><span class="ln">6</span><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"OpenAI"</span><span class="pu">,</span> <span class="str">"MongoDB"</span></span></div>
+      <div class="code-line"><span class="ln">7</span><span>&nbsp;&nbsp;<span class="pu">],</span></span></div>
+      <div class="code-line"><span class="ln">8</span><span>&nbsp;&nbsp;<span class="fn">llms</span><span class="pu">: [</span><span class="str">"OpenAI"</span><span class="pu">,</span> <span class="str">"Groq"</span><span class="pu">],</span></span></div>
+      <div class="code-line"><span class="ln">9</span><span>&nbsp;&nbsp;<span class="fn">available</span><span class="pu">:</span> <span class="kw">true</span></span></div>
+      <div class="code-line"><span class="ln">10</span><span><span class="pu">}</span></span></div>
+      <div class="code-line" style="margin-top:12px"><span class="ln">12</span><span class="cm">// RAG · JWT · Vercel · CI/CD</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Node.js</span><span class="ticker-item">React</span>
+    <span class="ticker-item">LLM Integrations</span><span class="ticker-item">RAG Pipelines</span>
+    <span class="ticker-item">OpenAI API</span><span class="ticker-item">MongoDB</span>
+    <span class="ticker-item">TypeScript</span><span class="ticker-item">Flask</span>
+    <span class="ticker-item">REST APIs</span><span class="ticker-item">Vercel</span>
+    <span class="ticker-item">Node.js</span><span class="ticker-item">React</span>
+    <span class="ticker-item">LLM Integrations</span><span class="ticker-item">RAG Pipelines</span>
+    <span class="ticker-item">OpenAI API</span><span class="ticker-item">MongoDB</span>
+    <span class="ticker-item">TypeScript</span><span class="ticker-item">Flask</span>
+    <span class="ticker-item">REST APIs</span><span class="ticker-item">Vercel</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+  <section class="reveal">
+    <div class="section-label">// 01 — About</div>
+    <h2 class="section-title">WHO AM I</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a full-stack developer with production experience in Node.js/Express backends,
+          React frontends, MongoDB, and REST API design. I specialize in AI-native systems —
+          RAG pipelines, LLM agents, and context-aware multi-turn conversations.
+        </p>
+        <p>
+          My flagship project, <strong>InterviewAI</strong>, is a production-ready LLM agent platform:
+          upload a resume and job description, and the system parses, embeds, and runs a RAG pipeline
+          to generate contextual interview questions — built solo, end-to-end, deployed on Vercel.
+        </p>
+        <p>
+          Currently working as a Junior React Developer at <strong>AsimovX Technologies</strong>, Kerala.
+          BCA graduate from NSS College, Rajakumari. Fluent in English, Malayalam &amp; Hindi.
+        </p>
+        <br>
+        <a href="mailto:surajkumarks.idk@gmail.com" class="btn btn-primary" style="display:inline-block;">Email Me →</a>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><span class="stat-num">1+</span><div class="stat-label">Years Exp</div></div>
+        <div class="stat-box"><span class="stat-num">3+</span><div class="stat-label">Projects Shipped</div></div>
+        <div class="stat-box"><span class="stat-num">2</span><div class="stat-label">LLM Providers</div></div>
+        <div class="stat-box"><span class="stat-num">∞</span><div class="stat-label">Lines Debugged</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- SKILLS -->
+<div id="skills">
+  <div class="skills-wrap">
+    <div class="section-label">// 02 — Stack</div>
+    <h2 class="section-title reveal">THE STACK</h2>
+    <div class="skills-grid reveal">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Backend</div>
+        <span class="skill-tag">Node.js</span><span class="skill-tag">Express</span>
+        <span class="skill-tag">Python</span><span class="skill-tag">Flask</span>
+        <span class="skill-tag">REST APIs</span><span class="skill-tag">JWT</span>
+        <span class="skill-tag">Rate Limiting</span><span class="skill-tag">Middleware</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Frontend</div>
+        <span class="skill-tag">React.js</span><span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span><span class="skill-tag">Bootstrap</span>
+        <span class="skill-tag">Axios</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">AI & LLMs</div>
+        <span class="skill-tag">OpenAI API</span><span class="skill-tag">Groq API</span>
+        <span class="skill-tag">RAG Pipelines</span><span class="skill-tag">Prompt Engineering</span>
+        <span class="skill-tag">Embeddings</span><span class="skill-tag">Context Injection</span>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Data & Tools</div>
+        <span class="skill-tag">MongoDB</span><span class="skill-tag">MySQL</span>
+        <span class="skill-tag">SQLite</span><span class="skill-tag">Cloudinary</span>
+        <span class="skill-tag">Git / GitHub</span><span class="skill-tag">Vercel</span>
+        <span class="skill-tag">CI/CD</span><span class="skill-tag">scikit-learn</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div id="experience">
+  <section class="reveal">
+    <div class="section-label">// 03 — Experience</div>
+    <h2 class="section-title">WHERE I'VE WORKED</h2>
+    <div class="exp-block">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">AsimovX Technologies</div>
+          <div class="exp-role">Junior React Developer</div>
+        </div>
+        <div class="exp-date">Dec 2025 — Present · Kerala, India</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li>Built and maintained React.js components integrated with Flask REST APIs, developing full-stack data-flow patterns applicable to Slack/Teams-connected backend services.</li>
+          <li>Debugged cross-layer issues across frontend, API, and database — developed a systematic root-cause approach to resolving integration failures fast in a high-velocity environment.</li>
+          <li>Maintained a clean, documented, version-controlled codebase on GitHub; supported smooth deployment through structured commit history and inline code documentation.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects">
+  <div class="projects-wrap">
+    <div class="section-label">// 04 — Work</div>
+    <h2 class="section-title reveal">SELECTED PROJECTS</h2>
+    <div class="projects-grid reveal">
+
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-type">LLM Agent Platform · Featured</div>
+        <div class="project-title">InterviewAI</div>
+        <p class="project-desc">
+          Upload resume + job description → system parses, chunks &amp; embeds → RAG pipeline retrieves context →
+          OpenAI/Groq generates contextual interview questions in a multi-turn conversation. Fully production-grade.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Node.js</span><span class="tech-tag">Express</span>
+          <span class="tech-tag">React + TS</span><span class="tech-tag">MongoDB</span>
+          <span class="tech-tag">OpenAI</span><span class="tech-tag">Groq</span>
+          <span class="tech-tag">RAG</span><span class="tech-tag">Vercel</span>
+        </div>
+        <a href="https://github.com/limitless-v" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-type">ML Pipeline + Browser Extension</div>
+        <div class="project-title">Phishing Detector</div>
+        <p class="project-desc">
+          End-to-end ML pipeline: data collection → 30+ feature engineering (NumPy) → scikit-learn training →
+          real-time Flask REST API → browser extension. Full ownership from raw data to deployed product.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span><span class="tech-tag">scikit-learn</span>
+          <span class="tech-tag">NumPy</span><span class="tech-tag">Flask</span>
+          <span class="tech-tag">REST API</span><span class="tech-tag">Browser Ext</span>
+        </div>
+        <a href="https://github.com/limitless-v" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <div class="project-type">Full Stack Web App</div>
+        <div class="project-title">Jeep Safari Booking</div>
+        <p class="project-desc">
+          Full-stack booking application with a RESTful PHP backend, relational MySQL schema,
+          and an AJAX-driven responsive UI. Solid architecture, database design, and dynamic frontend.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Bootstrap</span><span class="tech-tag">AJAX</span>
+          <span class="tech-tag">REST APIs</span>
+        </div>
+        <a href="https://github.com/limitless-v" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <section class="reveal">
+    <div class="section-label">// 05 — Contact</div>
+    <h2 class="section-title">LET'S BUILD</h2>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info">
+          <p>
+            I'm actively looking for internship and junior developer roles — especially teams building
+            AI-native products, backend systems, or full-stack web applications.
+          </p>
+          <p>Open to freelance projects too. My inbox is always open.</p>
+        </div>
+        <br>
+        <div class="contact-links">
+          <a href="https://github.com/limitless-v" target="_blank" class="contact-link-item">
+            <span>github.com/limitless-v</span><span>↗</span>
+          </a>
+          <a href="mailto:surajkumarks.idk@gmail.com" class="contact-link-item">
+            <span>surajkumarks.idk@gmail.com</span><span>↗</span>
+          </a>
+          <a href="tel:+918075277543" class="contact-link-item">
+            <span>+91 8075277543</span><span>↗</span>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="contact-link-item">
+            <span>LinkedIn</span><span>↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-field"><input type="text" placeholder="Your name" /></div>
+        <div class="form-field"><input type="email" placeholder="Your email" /></div>
+        <div class="form-field"><input type="text" placeholder="Subject" /></div>
+        <div class="form-field"><textarea rows="5" placeholder="Tell me about the opportunity..."></textarea></div>
+        <button class="form-submit" onclick="this.textContent='SENT ✓'; this.style.background='#2ecc71'; this.style.color='#000';">SEND MESSAGE</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Designed & Built by <span>Surajkumar KS</span> — Full Stack & AI Developer · Kerala, India</p>
+  <p style="margin-top:0.5rem;">© 2026 — <span>github.com/limitless-v</span></p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
